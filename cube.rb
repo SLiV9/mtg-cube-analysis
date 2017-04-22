@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require "mtg_sdk"
+require "json"
 
 cardnames = []
 
@@ -9,32 +10,41 @@ File.open("cube.txt").each do |line|
 	if line.empty?
 		next
 	end
-	if line.start_with? "//"
+	if line.start_with?("//")
 		next
 	end
 	cardnames << line
 end
 
+cards = []
+
 cardnames.each do |cardname|
 
 	filename = "cache/" + cardname + ".json"
 
-	if File.file? filename
+	if File.file?(filename)
+		File.open(filename).each do |line|
+			cards << JSON.parse(line)
+		end
 		next
 	end
 
 	print "Downloading #{cardname}... \t"
 
-	cards = MTG::Card
+	results = MTG::Card
 			.where(name: cardname)
 			.where(pageSize: 1)
 			.all
 
-	card = cards[0]
+	card = results[0]
 
 	File.open(filename, 'w') do |line|
 		line.puts card.to_json
 	end
 
 	print "OK\n"
+
+	cards << JSON.parse(card.to_json)
 end
+
+puts "Loaded #{cards.size} cards."
