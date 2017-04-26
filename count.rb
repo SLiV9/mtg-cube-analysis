@@ -14,7 +14,7 @@ cards.each do |card|
 end
 
 colors.each do |key, value|
-	puts "#{key}: \t#{value}"
+	puts "#{value}x \t#{key}"
 end
 
 puts "Total: \t#{cards.size}"

@@ -29,18 +29,19 @@ end
 
 puts "Types"
 types.each do |key, value|
-	puts "#{key}: \t#{value}"
+	puts "#{value}x \t#{key}"
 end
 puts ""
 
 puts "Supertypes"
 supertypes.each do |key, value|
-	puts "#{key}: \t#{value}"
+	puts "#{value}x \t#{key}"
 end
 puts ""
 
 puts "Subtypes"
+subtypes = subtypes.sort_by{|key, value| value}.reverse
 subtypes.each do |key, value|
-	puts "#{key}: \t#{value}"
+	puts "#{value}x \t#{key}"
 end
 puts ""

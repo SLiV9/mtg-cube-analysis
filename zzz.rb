@@ -1,3 +1,3 @@
 #!/usr/bin/ruby
 
-puts "abcde".replace("xyz")
+puts "abcde".gsub(/b.d/, "xy")

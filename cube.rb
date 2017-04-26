@@ -45,6 +45,7 @@ module Cube
 					.where(pageSize: 1)
 					.all
 
+			# todo choose which result to take
 			card = results[0]
 
 			File.open(filename, 'w') do |line|
