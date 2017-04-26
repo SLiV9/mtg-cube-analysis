@@ -7,8 +7,8 @@ require "./cube.rb"
 
 cards = Cube::cards()
 
-textlines = {}
-textlines.default_proc = proc {0}
+effects = {}
+effects.default_proc = proc {0}
 keywords = {}
 keywords.default_proc = proc {0}
 abilitywords = {}
@@ -24,21 +24,64 @@ cards.each do |card|
 	text.gsub!(card['name'], "~")
 	text.gsub!(/[ ]+\(.*\)/, "")
 	lines = text.split("\n")
-	# todo put in ability word
-	lines = lines.map{|line| line.split(" — ")}.flatten(1)
-	# todo put in costs
-	lines = lines.map{|line| line.split(": ")}.flatten(1)
-	lines = lines.map{|line| line.split(". ")}.flatten(1)
-	lines = lines.map{|line| line.split(", ")}.flatten(1)
-	lines = lines.map{|line| line.sub(".","")}
-	lines = lines.map{|line| line.capitalize}
 	lines.each do |line|
-		textlines[line] += 1
+		(line, head) = line.split(" — ").reverse
+		if not head.nil?
+			if head.capitalize == "Tramplelandfall"
+				puts card['name']
+			end
+			abilitywords[head.capitalize] += 1
+		end
+		(line, head) = line.split(": ").reverse
+		if not head.nil?
+			head.split(", ").each do |cost|
+				costs[cost.capitalize] += 1
+			end
+		end
+		if line[-1] != "." and line[-2] != "."
+			line.split(", ").each do |keyword|
+				(costedkeyword, cost) = line.split(" ")
+				if not cost.nil? and cost[0] == "{"
+					keywords[costedkeyword.capitalize] += 1
+					costs[cost.capitalize] += 1
+				elsif not cost.nil? and cost.sub(/[0-9]+/,"") == ""
+					keywords[costedkeyword.capitalize] += 1
+				else
+					keywords[keyword.capitalize] += 1
+				end
+			end
+		else
+			parts = line.split(". ")
+			parts = parts.map{|part| part.split("\"")}.flatten(1)
+			parts = parts.map{|part| part.split(", ")}.flatten(1)
+			parts = parts.map{|part| part.sub(".","")}
+			parts.each do |part|
+				effects[part.capitalize] += 1
+			end
+		end
 	end
 end
 
-textlines = textlines.sort_by{|key, value| value}.reverse
-textlines.each do |key, value|
+puts "\nKeywords"
+keywords = keywords.sort_by{|key, value| value}.reverse
+keywords.each do |key, value|
 	puts "#{value}x \t#{key}"
 end
 
+puts "\nAbilitywords"
+abilitywords = abilitywords.sort_by{|key, value| value}.reverse
+abilitywords.each do |key, value|
+	puts "#{value}x \t#{key}"
+end
+
+puts "\nCosts"
+costs = costs.sort_by{|key, value| value}.reverse
+costs.each do |key, value|
+	puts "#{value}x \t#{key}"
+end
+
+puts "\nEffects"
+effects = effects.sort_by{|key, value| value}.reverse
+effects.each do |key, value|
+	puts "#{value}x \t#{key}"
+end

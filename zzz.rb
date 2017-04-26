@@ -1,3 +1,8 @@
 #!/usr/bin/ruby
 
-puts "abcde".gsub(/b.d/, "xy")
+puts "hoi."[-1]
+
+parts = "hoi.".split(/.$/)
+parts.each do |part|
+	puts part
+end
