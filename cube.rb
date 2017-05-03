@@ -41,7 +41,7 @@ module Cube
 			print "Downloading #{cardname}... \t"
 
 			results = MTG::Card
-					.where(name: cardname)
+					.where(name: "\"#{cardname}\"")
 					.where(pageSize: 1)
 					.all
 
