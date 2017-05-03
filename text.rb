@@ -17,19 +17,24 @@ costs = {}
 costs.default_proc = proc {0}
 
 cards.each do |card|
-	text = card['originalText']
+	text = card['text']
 	if text.nil?
 		next
 	end
 	text.gsub!(card['name'], "~")
-	text.gsub!(/[ ]+\(.*\)/, "")
+	text.gsub!(/[ ]+\(.*?\)/, "")
 	lines = text.split("\n")
+	lines.map{|line|
+		subs = line.scan(/\"(.*?)\"/)
+		subs.each do |sub|
+			lines << sub.join()
+		end
+	}
+	lines.map{|line| line.gsub!(/\".*?\.\"/, "\"\"\.")}
+	lines.map{|line| line.gsub!(/\".*?\"/, "\"\"")}
 	lines.each do |line|
 		(line, head) = line.split(" — ").reverse
 		if not head.nil?
-			if head.capitalize == "Tramplelandfall"
-				puts card['name']
-			end
 			abilitywords[head.capitalize] += 1
 		end
 		(line, head) = line.split(": ").reverse
@@ -51,8 +56,8 @@ cards.each do |card|
 				end
 			end
 		else
-			parts = line.split(". ")
-			parts = parts.map{|part| part.split("\"")}.flatten(1)
+			parts = [line]
+			parts = parts.map{|part| part.split(". ")}.flatten(1)
 			parts = parts.map{|part| part.split(", ")}.flatten(1)
 			parts = parts.map{|part| part.sub(".","")}
 			parts.each do |part|
