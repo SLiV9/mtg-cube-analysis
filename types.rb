@@ -4,6 +4,8 @@ require "json"
 
 require "./cube.rb"
 
+colors = ARGV
+
 cards = Cube::cards()
 
 types = {}
@@ -14,6 +16,9 @@ subtypes = {}
 subtypes.default_proc = proc {0}
 
 cards.each do |card|
+	if colors.any? && ((card['colors'] || ['Colorless']) & colors).empty?
+		next
+	end
 	types[card['types']] += 1
 	if not card['supertypes'].nil?
 		card['supertypes'].each do |supertype|

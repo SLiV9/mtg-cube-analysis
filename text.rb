@@ -5,6 +5,8 @@ require "json"
 
 require "./cube.rb"
 
+colors = ARGV
+
 cards = Cube::cards()
 
 effects = {}
@@ -17,6 +19,9 @@ costs = {}
 costs.default_proc = proc {0}
 
 cards.each do |card|
+	if colors.any? && ((card['colors'] || ['Colorless']) & colors).empty?
+		next
+	end
 	text = card['text']
 	if text.nil?
 		next
