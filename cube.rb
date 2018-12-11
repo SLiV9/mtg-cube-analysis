@@ -7,10 +7,29 @@ module Cube
 
 	def self.cardnames()
 
+		filename = "data/cube.txt"
+
+		if not File.file?(filename)
+
+			if not Dir.exist?("data/")
+				Dir.mkdir("data/")
+			end
+
+			cardnames = ["Yoked Ox", "Inspired Charge", "Scroll Thief",
+				"Divination", "Ravenous Rats", "Disentomb", "Furnace Whelp",
+				"Lightning Strike", "Centaur Courser", "Rampant Growth"]
+
+			File.open(filename, "w") do |f|
+				f.puts(cardnames)
+			end
+
+			return cardnames
+		end
+
 		cardnames = []
 
 		# TODO Optimize with File.foreach?
-		File.open("data/cube.txt").each do |line|
+		File.open(filename).each do |line|
 			line.strip!
 			if line.empty?
 				next
