@@ -58,6 +58,10 @@ module Cube
 				next
 			end
 
+			if not Dir.exist?("cache/")
+				Dir.mkdir("cache/")
+			end
+
 			print "Downloading #{cardname}... \t"
 
 			results = MTG::Card
