@@ -63,7 +63,13 @@ cards.each do |card|
 		else
 			parts = [line]
 			parts = parts.map{|part| part.split(". ")}.flatten(1)
-			parts = parts.map{|part| part.split(", ")}.flatten(1)
+			parts = parts.map{|part|
+				if part.include?(", or")
+					[part]
+				else
+					part.split(", ")
+				end
+			}.flatten(1)
 			parts = parts.map{|part| part.sub(".","")}
 			parts.each do |part|
 				effects[part.capitalize] += 1

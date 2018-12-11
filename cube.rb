@@ -9,6 +9,7 @@ module Cube
 
 		cardnames = []
 
+		# TODO Optimize with File.foreach?
 		File.open("cube.txt").each do |line|
 			line.strip!
 			if line.empty?
@@ -45,7 +46,7 @@ module Cube
 					.where(pageSize: 1)
 					.all
 
-			# todo choose which result to take
+			# TODO Choose which result to take.
 			card = results[0]
 
 			File.open(filename, 'w') do |line|
