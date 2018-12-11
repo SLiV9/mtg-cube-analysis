@@ -10,7 +10,7 @@ module Cube
 		cardnames = []
 
 		# TODO Optimize with File.foreach?
-		File.open("cube.txt").each do |line|
+		File.open("data/cube.txt").each do |line|
 			line.strip!
 			if line.empty?
 				next
