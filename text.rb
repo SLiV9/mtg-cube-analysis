@@ -71,6 +71,7 @@ cards.each do |card|
 				end
 			}.flatten(1)
 			parts = parts.map{|part| part.sub(".","")}
+			parts = parts.map{|part| part.sub(/then /i,"")}
 			parts.each do |part|
 				effects[part.capitalize] += 1
 			end
