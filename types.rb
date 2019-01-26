@@ -3,6 +3,7 @@
 require "json"
 
 require "./cube.rb"
+require "./util.rb"
 
 colors = ARGV
 
@@ -16,7 +17,7 @@ subtypes = {}
 subtypes.default_proc = proc {0}
 
 cards.each do |card|
-	if colors.any? && ((card['colors'] || ['Colorless']) & colors).empty?
+	if colors.any? && (colorfix(card['colors']) & colors).empty?
 		next
 	end
 	types[card['types']] += 1

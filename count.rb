@@ -3,6 +3,7 @@
 require "json"
 
 require "./cube.rb"
+require "./util.rb"
 
 cards = Cube::cards()
 
@@ -10,7 +11,7 @@ colors = {}
 colors.default_proc = proc {0}
 
 cards.each do |card|
-	colors[card['colors'] || ['Colorless']] += 1
+	colors[colorfix(card['colors'])] += 1
 end
 
 colors.each do |key, value|
