@@ -64,10 +64,16 @@ module Cube
 
 			print "Downloading #{cardname}... \t"
 
+			if !cardname.include?("'")
+				cardname = "\"#{cardname}\""
+			end
+
 			results = MTG::Card
-					.where(name: "\"#{cardname}\"")
+					.where(name: "#{cardname}")
 					.where(pageSize: 1)
 					.all
+
+			fail if results.nil? || results.empty?
 
 			# TODO Choose which result to take.
 			card = results[0]
