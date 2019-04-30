@@ -11,7 +11,11 @@ colors = {}
 colors.default_proc = proc {0}
 
 cards.each do |card|
-	colors[colorfix(card['colors'])] += 1
+	if (card['type'] == 'Land')
+		colors["(Land)"] += 1
+	else
+		colors[colorfix(card['colors'])] += 1
+	end
 end
 
 colors.each do |key, value|
