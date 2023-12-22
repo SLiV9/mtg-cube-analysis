@@ -2,38 +2,46 @@
 
 def colorfix(colors)
 	if colors.nil? || colors.empty?
-		return ['Colorless']
+		return ['C']
 	end
+	abbreviations = {
+		'White' => 'W',
+		'Blue' => 'U',
+		'Black' => 'B',
+		'Red' => 'R',
+		'Green' => 'G',
+	}
+	colors = colors.map { |color| abbreviations[color] || color }
 	if colors.length == 1
 		return colors
 	end
 	canonicals = [
-		['White', 'Blue'],
-		['Blue', 'Black'],
-		['Black', 'Red'],
-		['Red', 'Green'],
-		['Green', 'White'],
-		['White', 'Black'],
-		['Blue', 'Red'],
-		['Black', 'Green'],
-		['Red', 'White'],
-		['Green', 'Blue'],
-		['Green', 'White', 'Blue'],
-		['White', 'Blue', 'Black'],
-		['Blue', 'Black', 'Red'],
-		['Black', 'Red', 'Green'],
-		['Red', 'Green', 'White'],
-		['White', 'Black', 'Green'],
-		['Blue', 'Red', 'White'],
-		['Black', 'Green', 'Blue'],
-		['Red', 'White', 'Black'],
-		['Green', 'Blue', 'Red'],
-		['Blue', 'Black', 'Red', 'Green'],
-		['Black', 'Red', 'Green', 'White'],
-		['Red', 'Green', 'White', 'Blue'],
-		['Green', 'White', 'Blue', 'Black'],
-		['White', 'Blue', 'Black', 'Red'],
-		['White', 'Blue', 'Black', 'Red', 'Green']
+		['W', 'U'],
+		['U', 'B'],
+		['B', 'R'],
+		['R', 'G'],
+		['G', 'W'],
+		['W', 'B'],
+		['U', 'R'],
+		['B', 'G'],
+		['R', 'W'],
+		['G', 'U'],
+		['G', 'W', 'U'],
+		['W', 'U', 'B'],
+		['U', 'B', 'R'],
+		['B', 'R', 'G'],
+		['R', 'G', 'W'],
+		['W', 'B', 'G'],
+		['U', 'R', 'W'],
+		['B', 'G', 'U'],
+		['R', 'W', 'B'],
+		['G', 'U', 'R'],
+		['U', 'B', 'R', 'G'],
+		['B', 'R', 'G', 'W'],
+		['R', 'G', 'W', 'U'],
+		['G', 'W', 'U', 'B'],
+		['W', 'U', 'B', 'R'],
+		['W', 'U', 'B', 'R', 'G']
 	]
 	return canonicals.select{
 		|canonical| canonical.sort == colors.sort
